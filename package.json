@@ -1,0 +1,37 @@
+{
+  "name": "employee-pre-salary-management-system",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Bertrand-mg/Employee-Pre-Salary-Management-System#readme",
+  "bugs": {
+    "url": "https://github.com/Bertrand-mg/Employee-Pre-Salary-Management-System/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bertrand-mg/Employee-Pre-Salary-Management-System.git"
+  },
+  "license": "ISC",
+  "author": "Bertrand",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/server.ts",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4",
+    "sequelize-cli": "^6.6.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
