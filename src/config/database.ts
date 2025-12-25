@@ -1,6 +1,6 @@
 const prefConfig = () => {
   const prefEnv = process.env.NODE_ENV;
-  var pref;
+  let pref;
   switch (prefEnv) {
     case 'development':
       pref = 'DEV';

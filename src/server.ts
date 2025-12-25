@@ -3,7 +3,7 @@ import { config as Dotenv } from 'dotenv';
 Dotenv();
 import { configs } from './config';
 import mainRoute from './routes';
-import { initialize } from './database';
+import { connectToDatabase } from './database';
 
 const app: Express = express();
 
@@ -11,8 +11,12 @@ app.use(configs.prefix, mainRoute);
 
 const startApp = async () => {
   try {
-    const Db = await initialize();
-    await Db?.sequelize.authenticate();
+    app.use(express.json());
+
+    await connectToDatabase();
+
+    app.use(configs.prefix, mainRoute);
+
     app.listen(configs.port, () =>
       console.log(`Server is running on port ${configs.port}`),
     );
