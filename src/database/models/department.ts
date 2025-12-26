@@ -25,7 +25,7 @@ export class Department
     return {
       id: this.id,
       name: this.name,
-      createAt: this.createdAt,
+      createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
   };
@@ -42,19 +42,20 @@ export const DepartmentModel = (sequelize: Sequelize) => {
       name: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: false,
       },
       createdAt: {
-        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date(),
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.fn('now'),
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: Sequelize.fn('now'),
       },
       deletedAt: {
         type: DataTypes.DATE,
-        allowNull: true,
       },
     },
     {

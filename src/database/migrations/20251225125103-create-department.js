@@ -10,7 +10,6 @@ module.exports = {
       id: {
         primaryKey: true,
         type: Sequelize.UUID,
-        // defaultValue: Sequelize.UUIDV4,
         defaultValue: Sequelize.fn('gen_random_uuid'),
         allowNull: false,
       },
@@ -23,13 +22,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
-        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
-        // onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       deletedAt: {
         type: Sequelize.DATE,
