@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { DepartmentService } from '../services';
 import {
   createDepartmentAttributes,
+  deleteDepartmentAttributes,
   updateDepartmentAttributes,
 } from '../types';
 
@@ -10,9 +11,23 @@ const departmentService = new DepartmentService();
 export class DepartmentController {
   getAllDepartment = async (req: Request, res: Response) => {
     const departments = await departmentService.fetchAll();
-    res.json({
+    res.status(200).json({
       message: `Departments are ${departments.length}`,
       data: departments,
+    });
+  };
+
+  getDepartmentById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    console.log('id is ', id);
+    const department = await departmentService.fetchById(id);
+    if (!department)
+      return res.status(404).json({
+        message: `Department not Found`,
+      });
+    res.status(200).json({
+      message: `Department Found`,
+      data: department,
     });
   };
 
@@ -28,7 +43,9 @@ export class DepartmentController {
 
       const data = await departmentService.insert(newDepartment);
 
-      res.json({ message: 'Department Created Successfully', data });
+      res
+        .status(200)
+        .json({ message: 'Department Created Successfully', data });
     } catch (error) {
       const { message } = error as Error;
       res
@@ -39,7 +56,8 @@ export class DepartmentController {
 
   updateDepartment = async (req: Request, res: Response) => {
     try {
-      const { id, name } = req.query;
+      const { id } = req.params;
+      const { name } = req.body;
 
       const department = await departmentService.fetchById(id as string);
 
@@ -49,19 +67,17 @@ export class DepartmentController {
       const updateInfo: updateDepartmentAttributes = {
         id: department.id,
         name: name as string,
-        updatedAt: new Date(),
       };
 
-      const updateCount = await departmentService.update(updateInfo);
+      const [updateCount, updateData] =
+        await departmentService.update(updateInfo);
 
-      if (updateCount[0] <= 0)
-        return res
-          .status(500)
-          .json({ message: 'Department not updated', data: updateCount[1] });
+      if ((updateCount as number) <= 0)
+        return res.status(500).json({ message: 'No Department updated' });
 
       res.status(200).json({
         message: 'Department updated successfully',
-        data: updateCount[1],
+        data: updateData,
       });
     } catch (error) {
       const { message } = error as Error;
@@ -79,12 +95,21 @@ export class DepartmentController {
       if (!department)
         return res.status(404).json({ message: 'Department not found.' });
 
-      const deleteCount = await departmentService.delete(id);
+      const deleteInfo: deleteDepartmentAttributes = {
+        id: department.id,
+        deletedAt: new Date(),
+      };
 
-      if (deleteCount <= 0)
-        return res.status(500).json({ message: 'Department not deleted' });
+      const [deleteCount, deletedData] =
+        await departmentService.delete(deleteInfo);
+      console.log('success');
 
-      res.status(500).json({ message: 'Department deleted' });
+      if ((deleteCount as number) <= 0)
+        return res.status(500).json({ message: 'No department deleted' });
+
+      res
+        .status(200)
+        .json({ message: 'Department deleted', data: deletedData });
     } catch (error) {
       const { message } = error as Error;
       res

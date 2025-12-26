@@ -20,6 +20,15 @@ export class Department
   readonly deletedAt!: Date;
 
   association() {}
+
+  public toJSON = () => {
+    return {
+      id: this.id,
+      name: this.name,
+      createAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  };
 }
 
 export const DepartmentModel = (sequelize: Sequelize) => {

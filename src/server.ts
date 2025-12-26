@@ -6,6 +6,7 @@ Dotenv();
 import { configs } from './config';
 import mainRoute from './routes';
 import { connectToDatabase } from './database';
+import { setupSwagger } from './docs/swagger';
 // import { applyLimit } from './middlewares';
 
 const app: Express = express();
@@ -24,6 +25,8 @@ const startApp = async () => {
     });
 
     app.use(configs.prefix, mainRoute);
+
+    setupSwagger(app);
 
     app.listen(configs.port, () =>
       console.log(`Server is running on port ${configs.port}`),

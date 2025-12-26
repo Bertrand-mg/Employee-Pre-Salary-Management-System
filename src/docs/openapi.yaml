@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: Employee Pre-Salary Management API
+  version: 1.0.0
+  description: Backend API documentation
+servers:
+  - url: http://localhost:3500/api/v1
+paths:
+  /departments:
+    get:
+      tags:
+        - departments
+      summary: Get All Departments
+      responses:
+        '200':
+          description: List of departments
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+        - departments
+      summary: Create new Department
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Finance'
+              required:
+                - name
+      responses:
+        '200':
+          description: New department
+          content:
+            application/json:
+              schema:
+                type: object
+  /departments/{id}:
+    get:
+      tags:
+        - departments
+      summary: Get Department By Id
+      parameters:
+        - name: id
+          in: path
+          description: Id of the department to find
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Department Found
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Department not Found
+    put:
+      tags:
+        - departments
+      summary: Update department name by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the department to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'Marketing'
+              required:
+                - name
+      responses:
+        '200':
+          description: Department updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Department not found
+    delete:
+      tags:
+        - departments
+      summary: Delete department name by ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the department to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Department deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Department not found

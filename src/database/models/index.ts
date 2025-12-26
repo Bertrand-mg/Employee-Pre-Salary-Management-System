@@ -8,3 +8,5 @@ interface Models {
 export const allModel = (sequelize: Sequelize): Models => {
   return { Department: DepartmentModel(sequelize) };
 };
+
+export * from './department';

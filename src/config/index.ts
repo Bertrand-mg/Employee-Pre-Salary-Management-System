@@ -9,3 +9,4 @@ export const configs: serverInterface = {
 };
 
 export * from './database';
+export * from './helmet.config';

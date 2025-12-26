@@ -7,5 +7,10 @@ export type createDepartmentAttributes = Pick<
 
 export type updateDepartmentAttributes = Pick<
   departmentAttributes,
-  'id' | 'name' | 'updatedAt'
+  'id' | 'name'
+>;
+
+export type deleteDepartmentAttributes = Pick<
+  departmentAttributes,
+  'id' | 'deletedAt'
 >;

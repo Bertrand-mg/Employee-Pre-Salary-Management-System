@@ -1,21 +1,21 @@
-import {
-  Department,
-  departmentAttributes,
-} from '../database/models/department';
+import { Department, departmentAttributes } from '../database/models';
 import {
   createDepartmentAttributes,
+  deleteDepartmentAttributes,
   updateDepartmentAttributes,
 } from '../types';
 
 export class DepartmentService {
   fetchAll = async () => {
-    const departments = await Department.findAll();
+    const departments = await Department.findAll({
+      where: { deletedAt: null },
+    });
     return departments;
   };
 
   fetchById = async (id: string) => {
     const department = (await Department.findOne({
-      where: { id },
+      where: { id, deletedAt: null },
     })) as departmentAttributes;
     return department;
   };
@@ -35,17 +35,18 @@ export class DepartmentService {
   };
 
   update = async (department: updateDepartmentAttributes) => {
-    const [updated] = await Department.update(
+    const [updated, [data]] = await Department.update(
       { ...department },
-      { where: { id: department.id } },
+      { where: { id: department.id }, returning: true },
     );
-    return [updated];
+    return [updated, data];
   };
 
-  delete = async (id: string) => {
-    const deletedCount = await Department.destroy({
-      where: { id },
-    });
-    return deletedCount;
+  delete = async (department: deleteDepartmentAttributes) => {
+    const [updated, [data]] = await Department.update(
+      { ...department },
+      { where: { id: department.id }, returning: true },
+    );
+    return [updated, data];
   };
 }
